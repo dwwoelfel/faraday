@@ -51,8 +51,7 @@
     write queue directly. *)
 
 
-type bigstring =
-  (char, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t
+type bigstring = Bigstringaf.t
 
 type t
 (** The type of a serializer. *)
