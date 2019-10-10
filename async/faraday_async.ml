@@ -22,7 +22,7 @@ let serialize t ~yield ~writev =
       yield t >>= fun () -> loop t
     | `Close -> return ()
   in
-  (try_with ~extract_exn:true (fun () -> loop t))
+  (Async_kernel.try_with ~extract_exn:true (fun () -> loop t))
   >>| function
     | Result.Ok () -> ()
     | Result.Error exn ->
