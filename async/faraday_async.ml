@@ -22,12 +22,7 @@ let serialize t ~yield ~writev =
       yield t >>= fun () -> loop t
     | `Close -> return ()
   in
-  let x = (try_with (fun () -> loop t)) in
-  x >>| function
-    | Result.Ok () -> ()
-    | Result.Error exn ->
-      shutdown ();
-      raise exn
+  (loop t)
 
 let writev_of_fd fd =
   let badfd =
