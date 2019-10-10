@@ -22,8 +22,8 @@ let serialize t ~yield ~writev =
       yield t >>= fun () -> loop t
     | `Close -> return ()
   in
-  (try_with ~extract_exn:true (fun () -> loop t))
-  >>| function
+  let x = (try_with ~extract_exn:true (fun () -> loop t)) in
+  x >>| function
     | Result.Ok () -> ()
     | Result.Error exn ->
       shutdown ();
