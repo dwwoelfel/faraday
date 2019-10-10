@@ -22,7 +22,12 @@ let serialize t ~yield ~writev =
       yield t >>= fun () -> loop t
     | `Close -> return ()
   in
-  (loop t)
+  (try_with ~extract_exn:true (fun () -> loop t))
+  >>| function
+    | Result.Ok () -> ()
+    | Result.Error exn ->
+      shutdown ();
+      raise exn
 
 let writev_of_fd fd =
   let badfd =
