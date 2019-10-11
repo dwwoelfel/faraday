@@ -24,8 +24,8 @@ let serialize t ~yield ~writev =
   in
   (Async_kernel.try_with ~extract_exn:true (fun () -> loop t))
   >>| function
-    | Pervasives.Result.Ok () -> ()
-    | Pervasives.Result.Error exn ->
+    | Ok () -> ()
+    | Error exn ->
       shutdown ();
       raise exn
 
